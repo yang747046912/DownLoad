@@ -29,10 +29,10 @@ public class FileDownloadTask implements Runnable, IoUtils.CopyListener {
     @Override
     public void onBytesCopied(int current, int total) {
         if (current == total) {
-            listener.downloadProgress(100);
+            listener.downloadProgress(100,current,total);
             listener.downloadSuccess();
         } else {
-            listener.downloadProgress((current* 1f) / (total * 1f) * 100);
+            listener.downloadProgress((current* 1f) / (total * 1f) * 100,current,total);
         }
     }
 

@@ -129,8 +129,8 @@ public class DownLoadManager {
             }
 
             @Override
-            public void downloadProgress(float process) {
-                listener.downloadProgress(process);
+            public void downloadProgress(float process,int current, int total) {
+                listener.downloadProgress(process,current,total);
                 DownInfo info = downInfos.get(key);
                 if (info != null) {
                     info.setProgress(process);

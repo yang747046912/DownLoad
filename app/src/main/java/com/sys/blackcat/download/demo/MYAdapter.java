@@ -124,7 +124,7 @@ public class MYAdapter extends BaseAdapter {
                     }
 
                     @Override
-                    public void downloadProgress(final float process) {
+                    public void downloadProgress(final float process,int current, int total) {
                         Log.d("---->", "downloadProgress " + process);
                         view.post(new Runnable() {
                             @Override
