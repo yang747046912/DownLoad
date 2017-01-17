@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by yangcai on 17/1/16.
@@ -29,10 +30,10 @@ public class FileDownloadTask implements Runnable, IoUtils.CopyListener {
     @Override
     public void onBytesCopied(int current, int total) {
         if (current == total) {
-            listener.downloadProgress(100,current,total);
+            listener.downloadProgress(100, current, total);
             listener.downloadSuccess();
         } else {
-            listener.downloadProgress((current* 1f) / (total * 1f) * 100,current,total);
+            listener.downloadProgress((current * 1f) / (total * 1f) * 100, current, total);
         }
     }
 
@@ -54,8 +55,10 @@ public class FileDownloadTask implements Runnable, IoUtils.CopyListener {
         FileOutputStream out = new FileOutputStream(info.getSavePath());
         try {
             IoUtils.copyStream(inputStream, out, this, 1024);
+        } catch (SocketTimeoutException e) {
+            throw e;
         } catch (InterruptedIOException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         } catch (IOException e) {
             throw e;
         }
