@@ -3,6 +3,7 @@ package com.sys.blackcat.download.utils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 
 /**
@@ -34,7 +35,9 @@ public class IoUtils {
         int count;
         listener.onBytesCopied(current, total);
         while ((count = is.read(bytes, 0, bufferSize)) != -1) {
-            shouldStopLoading();
+            if (shouldStopLoading()) {
+                throw  new InterruptedIOException();
+            }
             os.write(bytes, 0, count);
             current += count;
             listener.onBytesCopied(current, total);

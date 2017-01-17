@@ -78,7 +78,7 @@ public class DownLoadManager {
 
     private FutureTask addTask(DownInfo info, DownloadListener listener) {
         downInfos.put(info.getMd5Key(), info);
-        FileDownloadTask task = new FileDownloadTask(info, warpDownListener(info.getMd5Key(), listener));
+        FileDownloadTask task = new FileDownloadTask(info, wrapDownListener(info.getMd5Key(), listener));
         FutureTask futureTask = new FutureTask(task, null);
         futureTasks.put(info.getMd5Key(), futureTask);
         return futureTask;
@@ -105,6 +105,12 @@ public class DownLoadManager {
         }
         startDownload(downUrl, savePath, listener);
     }
+
+    /**
+     *
+     * @param downUrl
+     * @param listener
+     */
     public void startDownloadForce(String downUrl, final DownloadListener listener) {
         String md5Url = Md5Utils.getMd5String(downUrl);
         DownInfo info = downInfos.get(md5Url);
@@ -114,17 +120,17 @@ public class DownLoadManager {
         startDownload(downUrl, listener);
     }
 
-    private DownloadListener warpDownListener(final String key, final DownloadListener listener) {
+    private DownloadListener wrapDownListener(final String key, final DownloadListener listener) {
         return new DownloadListener() {
             @Override
-            public void downErr() {
-                listener.downErr();
+            public void downloadFailed(String failureReason) {
+                listener.downloadFailed(failureReason);
                 downInfos.remove(key);
             }
 
             @Override
-            public void downProcess(float process) {
-                listener.downProcess(process);
+            public void downloadProgress(float process) {
+                listener.downloadProgress(process);
                 DownInfo info = downInfos.get(key);
                 if (info != null) {
                     info.setProgress(process);
@@ -132,8 +138,8 @@ public class DownLoadManager {
             }
 
             @Override
-            public void downDone() {
-                listener.downDone();
+            public void downloadSuccess() {
+                listener.downloadSuccess();
                 downInfos.remove(key);
             }
         };

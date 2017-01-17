@@ -93,13 +93,13 @@ public class MYAdapter extends BaseAdapter {
 //        DownLoadManager.getInstance().startDownload(BIG_FILE_URLS[position],
 //                new DownloadListener() {
 //                    @Override
-//                    public void downErr() {
-//                        Log.d("---->", "downErr");
+//                    public void downloadFailed() {
+//                        Log.d("---->", "downloadFailed");
 //                    }
 //
 //                    @Override
-//                    public void downProcess(final float process) {
-//                        Log.d("---->", "downProcess " + process);
+//                    public void downloadProgress(final float process) {
+//                        Log.d("---->", "downloadProgress " + process);
 //                        view.post(new Runnable() {
 //                            @Override
 //                            public void run() {
@@ -109,23 +109,23 @@ public class MYAdapter extends BaseAdapter {
 //                    }
 //
 //                    @Override
-//                    public void downDone() {
-//                        Log.d("---->", "downDone");
+//                    public void downloadSuccess() {
+//                        Log.d("---->", "downloadSuccess");
 //                    }
 //                });
 
         File file = view.getContext().getDir("aaaaaaaa", Context.MODE_PRIVATE);
 
-        DownLoadManager.getInstance().startDownloadForce(BIG_FILE_URLS[position],file.getAbsolutePath()+"/"+System.currentTimeMillis()/1000,
+        DownLoadManager.getInstance().startDownloadForce(BIG_FILE_URLS[position], file.getAbsolutePath() + "/" + System.currentTimeMillis() / 1000,
                 new DownloadListener() {
                     @Override
-                    public void downErr() {
-                        Log.d("---->", "downErr");
+                    public void downloadFailed(String failureReason) {
+                        Log.d("---->", "downloadFailed " + failureReason);
                     }
 
                     @Override
-                    public void downProcess(final float process) {
-                        Log.d("---->", "downProcess " + process);
+                    public void downloadProgress(final float process) {
+                        Log.d("---->", "downloadProgress " + process);
                         view.post(new Runnable() {
                             @Override
                             public void run() {
@@ -135,8 +135,8 @@ public class MYAdapter extends BaseAdapter {
                     }
 
                     @Override
-                    public void downDone() {
-                        Log.d("---->", "downDone");
+                    public void downloadSuccess() {
+                        Log.d("---->", "downloadSuccess");
                     }
                 });
 

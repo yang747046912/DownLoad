@@ -6,11 +6,11 @@ package com.sys.blackcat.download.downloader;
 
 
 public interface DownloadListener {
-    void downErr();
+    void downloadFailed(String failureReason);
 
-    void downProcess(float process);//1 - 100
+    void downloadProgress(float process);//1 - 100
 
-    void downDone();//下载完成
+    void downloadSuccess();//下载完成
 }
 
 
