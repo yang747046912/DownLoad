@@ -32,7 +32,7 @@ public class FileDownloadTask implements Runnable, IoUtils.CopyListener {
             listener.downloadProgress(100);
             listener.downloadSuccess();
         } else {
-            listener.downloadProgress((current * 100 * 1f) / (total * 1f));
+            listener.downloadProgress((current* 1f) / (total * 1f) * 100);
         }
     }
 
